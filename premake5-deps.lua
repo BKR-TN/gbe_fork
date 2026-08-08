@@ -110,6 +110,12 @@ newoption {
     description = "Extract sdl",
 }
 
+newoption {
+    category = "extract",
+    trigger = "ext-sheenbidi",
+    description = "Extract sheenbidi",
+}
+
 -- build
 newoption {
     category = "build",
@@ -184,6 +190,12 @@ newoption {
     category = "build",
     trigger = "build-sdl",
     description = "Build sdl",
+}
+
+newoption {
+    category = "build",
+    trigger = "build-sheenbidi",
+    description = "Build sheenbidi",
 }
 
 local function merge_list(src, dest)
@@ -479,6 +491,9 @@ if _OPTIONS["ext-portaudio"] or _OPTIONS["all-ext"] then
 end
 if _OPTIONS["ext-sdl"] or _OPTIONS["all-ext"] then
     table.insert(deps_to_extract, { 'sdl/sdl.tar.gz', 'sdl' })
+end
+if _OPTIONS["ext-sheenbidi"] or _OPTIONS["all-ext"] then
+    table.insert(deps_to_extract, { 'sheenbidi/sheenbidi.tar.gz', 'sheenbidi' })
 end
 
 -- start extraction
@@ -857,5 +872,30 @@ if _OPTIONS["build-sdl"] or _OPTIONS["all-build"] then
     end
     if _OPTIONS["64-build"] then
         cmake_build('sdl', false, sdl_common_defs)
+    end
+end
+
+if _OPTIONS["build-sheenbidi"] or _OPTIONS["all-build"] then
+    local sheenbidi_common_defs = {
+        "SB_CONFIG_EXPERIMENTAL_TEXT_API=OFF",
+        "SB_CONFIG_UNITY=ON",
+        "BUILD_GENERATOR=OFF",
+        "BUILD_TESTING=OFF",
+        "ENABLE_COVERAGE=OFF",
+        "ENABLE_ASAN=OFF",
+        "ENABLE_UBSAN=OFF",
+    }
+
+    if os.target() == 'windows' and string.match(_ACTION, 'vs.+') then
+        table.insert(sheenbidi_common_defs, "BUILD_SHARED_LIBS=OFF")
+    elseif string.match(_ACTION, 'gmake.*') then
+        table.insert(sheenbidi_common_defs, "BUILD_SHARED_LIBS=OFF")
+    end
+
+    if _OPTIONS["32-build"] then
+        cmake_build('sheenbidi', true, sheenbidi_common_defs, sheenbidi_cflags)
+    end
+    if _OPTIONS["64-build"] then
+        cmake_build('sheenbidi', false, sheenbidi_common_defs, sheenbidi_cflags)
     end
 end

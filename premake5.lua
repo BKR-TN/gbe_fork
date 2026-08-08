@@ -235,6 +235,7 @@ local x32_deps_include = {
     path.join(deps_dir, "opus/install32/include"),
     path.join(deps_dir, "portaudio/install32/include"),
     path.join(deps_dir, "sdl/install32/include"),
+    path.join(deps_dir, "sheenbidi/install32/include"),
 }
 
 local x32_deps_overlay_include = {
@@ -252,6 +253,7 @@ local x64_deps_include = {
     path.join(deps_dir, "opus/install64/include"),
     path.join(deps_dir, "portaudio/install64/include"),
     path.join(deps_dir, "sdl/install64/include"),
+    path.join(deps_dir, "sheenbidi/install64/include"),
 }
 
 local x64_deps_overlay_include = {
@@ -320,6 +322,7 @@ local deps_link = {
     "opus"               .. static_postfix,
     "portaudio"          .. static_postfix,
     sdl_name             .. static_postfix,
+    "SheenBidi"          .. static_postfix,
 }
 -- add protobuf libs
 table_append(deps_link, {
@@ -471,6 +474,7 @@ local x32_deps_libdir = {
     path.join(deps_dir, "opus/install32/lib"),
     path.join(deps_dir, "portaudio/install32/lib"),
     path.join(deps_dir, "sdl/install32/lib"),
+    path.join(deps_dir, "sheenbidi/install32/lib"),
 }
 
 local x32_deps_overlay_libdir = {
@@ -489,6 +493,7 @@ local x64_deps_libdir = {
     path.join(deps_dir, "opus/install64/lib"),
     path.join(deps_dir, "portaudio/install64/lib"),
     path.join(deps_dir, "sdl/install64/lib"),
+    path.join(deps_dir, "sheenbidi/install64/lib"),
 }
 
 local x64_deps_overlay_libdir = {
